@@ -1,32 +1,29 @@
 warning off
 
-ref_method = @ring;
-methods = { @ring_euler, @ring_euler };
+func = @ring;
 X0 = [0; 1];
-im_parts = [ 2, -2 ];
-re_parts = [ 1, 1 ];
 
-% ref_method = @hamiltonian;
-% methods = { @hamiltonian_euler, @hamiltonian_euler_semi };
-% X0 = [0; 2];
-% im_parts = [ 5, 4.3 ];
-% re_parts = [ 1, 1 ];
+im_parts = [ 1/2, -1/2 ]; % 2 порядок
+re_parts = [ 1/2, 1/2 ];
+coefs = complex(re_parts, im_parts);
+
+gamma11 = 1/2 + 1/2i; % 3 порядок
+gamma12 = 1/2 - 1/2i;
+gamma21 = 1/2 + sqrt(3)/6i;
+gamma22 = 1/2 - sqrt(3)/6i;
+coefs = [[gamma11 gamma12] * gamma21, [gamma12 gamma11] * gamma22];
 
 Tmax = 100;
-coefs = complex(re_parts, im_parts);
-h_test = logspace(-3.5, -1.5, 25);
+h_test = logspace(-2, -1, 30);
 
-s = sum(coefs);
 E = [];
-
 for h_global = h_test
-    hs = coefs / s * h_global;
-    hs2 = coefs / s * h_global / 2;
+    hs = coefs * h_global;
+    hs2 = coefs * h_global / 2;
     
-    [~, x] = composition_method(methods, hs, Tmax, X0);
-    [~, x2] = composition_method(methods, hs2, Tmax, X0);
-    [t, x_ref] = ode78(ref_method, 0:h_global:Tmax, X0);
-    x_ref = x_ref';
+    [t, x] = composition_method(func, hs, Tmax, X0);
+    [~, x2] = composition_method(func, hs2, Tmax, X0);
+    x_ref = [sin(t); cos(t)];
     
     x2 = x2(:, 2 * (1:length(t)) - 1); % берем только нечетные точки
     e1 = vecnorm(x - x_ref);
@@ -35,6 +32,8 @@ for h_global = h_test
 end
 
 figure;
-semilogx(h_test, E);
+semilogx(h_test, log2(E));
+xlabel('Step $h$', Interpreter='latex');
+ylabel('Method order', Interpreter='latex');
 grid on;
 title('Order Plot');

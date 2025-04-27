@@ -1,15 +1,10 @@
-function [t, x] = composition_method(methods, hs, Tmax, x0)
-    assert(Tmax > 0, 'Tmax should be a positive real value');
-    assert(iscell(methods), 'methods should be a cell of functions');
+function [t, x] = composition_method(func, hs, Tmax, x0)
     assert(isvector(hs), 'hs should be a vector of coefficients');
-    assert(length(methods) == length(hs), 'Methods count should be equal to coefficients count');
-    
     h = sum(hs);
+    assert(abs(imag(h)) < 1e-9, 'Sum of coefficients must not have imaginary part')
     
-    %assert(imag(h) == 0, 'Sum of coefficients must not have imaginary part')
-
     t = 0:h:Tmax;
-    N = length(methods);
+    N = length(hs);
     K = length(t);
     
     x = zeros(size(x0, 1), K);
@@ -17,10 +12,9 @@ function [t, x] = composition_method(methods, hs, Tmax, x0)
     for k = 1:K-1
         xtemp = x(:, k);
         for n = 1:N
-            method = methods{1, n};
-            xtemp = method(xtemp, hs(n));
+            xtemp = emp(func, hs(n), xtemp);
         end
-        x(:, k + 1) = real(xtemp);
+        x(:, k + 1) = xtemp;
     end
 end
 

@@ -3,7 +3,7 @@ function setup
     
     for k = 1:length(files)
         filename = files(k).name;
-        if (isfolder(filename) && ~strcmp(filename, '.') && ~strcmp(filename, '..'))
+        if (isfolder(filename) && filename(1) ~= '.' && ~strcmp(filename, '..'))
             disp([filename, ' is being added to PATH...']);
             addpath(filename);
         end

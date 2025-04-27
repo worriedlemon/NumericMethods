@@ -2,20 +2,14 @@ warning off
 
 %% System
 
-methods = { @hamiltonian_euler, @hamiltonian_euler_exp };
+func = @hamiltonian;
 X0 = [0; 2];
 
 %% Params
-h_global = 1e-1;
-im_parts = [ 1, -1 ];
-re_parts = [ 1, 1 ];
-Tmax = 25;
-coefs = complex(re_parts, im_parts);
+Tmax = 30;
 
 %% Calculation
-hs = coefs / sum(coefs) * h_global;
-
-[t, x, hs_fact] = composition_method_var(methods, hs, Tmax, X0, 1e-1);
+[t, x, hs_fact] = composition_method_var3ord(func, Tmax, X0, 1e-1);
 
 %% Plot
 figure;

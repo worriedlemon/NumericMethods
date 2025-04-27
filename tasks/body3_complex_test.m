@@ -19,17 +19,16 @@ X0 = [  5; ...
         6; ...
         17.5 ];
 
-Tmax = 100;
-h = 5e-3;
-%methods = { @body3_euler, @body3_euler_exp };
-methods = { @body3_euler, @body3_euler, @body3_euler, @body3_euler };
+Tmax = 50;
+func = @body3;
+h_global = 5e-3;
 
-im_coefs = [ 0.5, -0.5, -1, 1 ];
-re_coefs = [ 1, 2, 0.5, 1.5 ];
+im_coefs = [ 1/2, -1/2 ];
+re_coefs = [ 1/2, 1/2 ];
 coefs = complex(re_coefs, im_coefs);
-hs = coefs / sum(coefs) * h;
+hs = coefs * h_global;
 
-[t, x] = composition_method(methods, hs, Tmax, X0);
+[t, x] = composition_method(func, hs, Tmax, X0);
 %[~, x] = ode45(@body3, 0:h:Tmax, X0'); x = x'; % Dormand-Prince solution
 
 R = real(x(1:9, :));
