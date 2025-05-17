@@ -1,4 +1,6 @@
 function dX = ring(X)
-    dX = [0 1; -1 0] * X;
+    dX = X;
+    dX(1) = X(2);
+    dX(2) = -X(1);
 end
 

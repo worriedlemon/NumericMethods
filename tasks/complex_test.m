@@ -2,12 +2,12 @@ warning off
 
 %% Ring Test
 
-func = @ring;
-X0 = [1; 0];
+func = @hamiltonian;
+X0 = [2; 0];
 
 %% Params
 h_global = 1e-1;
-im_parts = [ 1/2, -1/2 ];
+im_parts = [ sqrt(3)/6, -sqrt(3)/6 ];
 re_parts = [ 1/2, 1/2 ];
 Tmax = 20;
 coefs = complex(re_parts, im_parts);

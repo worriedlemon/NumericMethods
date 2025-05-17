@@ -21,9 +21,9 @@ X0 = [  5; ...
 
 Tmax = 50;
 func = @body3;
-h_global = 5e-3;
+h_global = 1e-2;
 
-im_coefs = [ 1/2, -1/2 ];
+im_coefs = [ sqrt(3)/6, -sqrt(3)/6 ];
 re_coefs = [ 1/2, 1/2 ];
 coefs = complex(re_coefs, im_coefs);
 hs = coefs * h_global;

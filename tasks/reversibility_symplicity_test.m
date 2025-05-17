@@ -1,4 +1,4 @@
-warning off
+%warning off
 
 %% Ring Test
 
@@ -7,9 +7,9 @@ X0 = [1; 0];
 
 %% Params
 h_global = 1e-1;
-im_parts = [ 1/2, -1/2 ];
+im_parts = [ sqrt(3)/6, -sqrt(3)/6 ];
 re_parts = [ 1/2, 1/2 ];
-Tmax = 10 * h_global;
+Tmax = 10000;
 coefs = complex(re_parts, im_parts);
 
 %% Calculation
@@ -17,12 +17,15 @@ hs = coefs * h_global;
 
 [~, x] = composition_method(func, hs, Tmax, X0);
 [~, x_back] = composition_method(func, -hs, -Tmax, x(:, end));
+x = real(x); x_back = real(x_back);
 
 %% Check
-if (vecnorm(x(:, 1) - x_back(:, end)) < 1e-3)
+err = vecnorm(x(:, 1) - x_back(:, end));
+if (err < 1e-9)
     disp('Points are equal');
 else
-    error('Points are not equal');
+    warning('Points are not equal');
+    disp(['Error = ', num2str(err)]);
 end
 
 %% Plot

@@ -3,11 +3,9 @@ function [t, x, o_h] = composition_method_var3ord(func, Tmax, x0, eps)
     
     h = 1e-1;
 
-    gamma11 = 1/2 + 1/2i; % 3 порядок с комплексными коэффициентами
-    gamma12 = 1/2 - 1/2i;
-    gamma21 = 1/2 + sqrt(3)/6i;
-    gamma22 = 1/2 - sqrt(3)/6i;
-    hs_c = [[gamma11 gamma12] * gamma21, [gamma12 gamma11] * gamma22];
+    gamma1 = 1/2 + sqrt(3)/6i; % 3 порядок
+    gamma2 = 1/2 - sqrt(3)/6i;
+    hs_c = [gamma1 gamma2];
 
     gamma1 = 1 / (2 - 2^(1/3)); % 3 порядок с вещественными коэффициентами
     gamma2 = 1 - 2 * gamma1; % тут вопрос, потому что делаем шаг назад по сути...
